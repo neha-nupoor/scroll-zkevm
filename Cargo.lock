@@ -1402,7 +1402,7 @@ dependencies = [
 [[package]]
 name = "halo2-mpt-circuits"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-1220#007c3371062c9865195d97a1ba1db3e9afd739ad"
+source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-1230#73df1cbe1e25df9dedfea61e5f23613e8e3831b3"
 dependencies = [
  "halo2_proofs",
  "hash-circuit",
@@ -1538,7 +1538,7 @@ dependencies = [
 [[package]]
 name = "hash-circuit"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/hash-circuit.git#4d5b291948276bcf0c8636f7722d108a6f3a914f"
+source = "git+https://github.com/scroll-tech/hash-circuit.git?branch=scroll-dev-1230#e28c5fa3b45a6aee020fa735a513d72b38aa67fd"
 dependencies = [
  "bitvec 0.22.3",
  "halo2_proofs",
@@ -3922,8 +3922,8 @@ dependencies = [
 
 [[package]]
 name = "zktrie"
-version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zktrie.git#5eb8ff6aed5c2b3c8a699e6fe0a9fc1afec78b19"
+version = "0.1.1"
+source = "git+https://github.com/scroll-tech/zktrie.git?branch=dev-1102#f7ba2ca825f087ecba2240daacc63e2ee166e1e4"
 dependencies = [
  "gobuild",
 ]
