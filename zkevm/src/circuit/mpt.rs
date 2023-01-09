@@ -9,6 +9,7 @@ use std::{
 };
 use types::eth::{AccountProofWrapper, StorageProofWrapper};
 use zkevm_circuits::evm_circuit::witness::{Block as BlockWitness, Rw, RwMap};
+use mpt_circuits::MPTProofType;
 
 pub const NODE_TYPE_MIDDLE: u8 = 0;
 pub const NODE_TYPE_LEAF: u8 = 1;
@@ -183,7 +184,7 @@ impl From<&Rw> for RwAccountId {
 pub fn mpt_entries_from_witness_block(
     mut sdb: StateDB,
     block_wit: &BlockWitness<Fr>,
-) -> Vec<AccountProofWrapper> {
+) -> Vec<(AccountProofWrapper, MPTProofType)> {
     use std::collections::HashMap;
     use zkevm_circuits::table::{AccountFieldTag, RwTableTag};
 
@@ -205,13 +206,22 @@ pub fn mpt_entries_from_witness_block(
             let (existed, acc_data) = sdb.get_account(&addr);
             assert!(existed, "account must be set in sdb");
 
-            out_entries.push(AccountProofWrapper {
+            out_entries.push((AccountProofWrapper {
                 address: Some(addr),
                 nonce: Some(acc_data.nonce.as_u64()),
                 balance: Some(acc_data.balance),
                 code_hash: Some(acc_data.code_hash),
                 ..Default::default()
-            });
+                },
+                // match AccountFieldTag
+                match last_addr.0 {
+                    1 => MPTProofType::NonceChanged,
+                    2 => MPTProofType::BalanceChanged,
+                    3 => MPTProofType::CodeHashExists,
+                    4 => MPTProofType::AccountDoesNotExist,
+                    _ => unreachable!("no corresponding field tag"),
+                }
+            ));
         };
 
         for rw in rws {
@@ -263,8 +273,8 @@ pub fn mpt_entries_from_witness_block(
             assert!(existed, "account must be set in sdb");
 
             let key = rw.storage_key().expect("should be storage rw");
-            let (val, _, _, _) = rw.storage_value_aux();
-            out_entries.push(AccountProofWrapper {
+            let (val, val_old, _, _) = rw.storage_value_aux();
+            out_entries.push((AccountProofWrapper {
                 address: Some(addr),
                 nonce: Some(acc_data.nonce.as_u64()),
                 balance: Some(acc_data.balance),
@@ -275,7 +285,13 @@ pub fn mpt_entries_from_witness_block(
                     ..Default::default()
                 }),
                 ..Default::default()
-            });
+                },
+                if val.is_zero() && val_old.is_zero() {
+                    MPTProofType::StorageDoesNotExist
+                } else {
+                    MPTProofType::StorageChanged
+                }
+            ));
         };
 
         for rw in rws {

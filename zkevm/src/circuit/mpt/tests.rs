@@ -218,6 +218,7 @@ fn witgen_build_mpt_table() {
     let (sdb, _) = build_statedb_and_codedb(&[block_trace]).unwrap();
 
     let entries = mpt_entries_from_witness_block(sdb, &block_witness);
+    let entries : Vec<_> = entries.into_iter().map(|(entry, _)|entry).collect();
 
     println!("entries {:?}", entries);
 
@@ -252,6 +253,7 @@ fn witgen_from_file() {
     let (sdb, _) = build_statedb_and_codedb(&[block_trace]).unwrap();
 
     let entries = mpt_entries_from_witness_block(sdb, &block_witness);
+    let entries : Vec<_> = entries.into_iter().map(|(entry, _)|entry).collect();
 
     let traces: Vec<_> = entries
         .iter()

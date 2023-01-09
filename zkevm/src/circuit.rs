@@ -2,7 +2,7 @@ use anyhow::bail;
 use halo2_proofs::halo2curves::bn256::Fr;
 use halo2_proofs::plonk::Circuit as Halo2Circuit;
 
-use mpt_circuits::{hash::Hashable, operation::AccountOp, EthTrie, EthTrieCircuit, HashCircuit};
+use mpt_circuits::{hash::Hashable, operation::AccountOp, EthTrie, EthTrieCircuit, HashCircuit, MPTProofType};
 
 use once_cell::sync::Lazy;
 
@@ -205,9 +205,10 @@ fn mpt_rows() -> usize {
     ((1 << *DEGREE) - 10) / <Fr as Hashable>::hash_block_size()
 }
 
-fn trie_data_from_blocks(block_traces: &[BlockTrace]) -> EthTrie<Fr> {
+fn trie_data_from_blocks(block_traces: &[BlockTrace]) -> (EthTrie<Fr>, Option<Vec<MPTProofType>>) {
     use mpt::witness::WitnessGenerator;
     let mut trie_data: EthTrie<Fr> = Default::default();
+    let mut tbl_tips: Option<Vec<MPTProofType>> = None;
 
     if *USE_SMTTRACE
         && block_traces
@@ -226,6 +227,8 @@ fn trie_data_from_blocks(block_traces: &[BlockTrace]) -> EthTrie<Fr> {
         let block_witness = block_traces_to_witness_block(block_traces).unwrap();
         let (sdb, _) = builder::build_statedb_and_codedb(block_traces).unwrap();
         let entries = mpt::mpt_entries_from_witness_block(sdb, &block_witness);
+        tbl_tips.replace(entries.iter().map(|(_, tip)|tip).copied().collect());
+        let entries : Vec<_> = entries.into_iter().map(|(entry, _)|entry).collect();
 
         let mut w = WitnessGenerator::new(&block_traces[0]);
 
@@ -241,20 +244,20 @@ fn trie_data_from_blocks(block_traces: &[BlockTrace]) -> EthTrie<Fr> {
         trie_data.add_ops(traces.map(|tr| TryFrom::try_from(&tr).unwrap()));
     }
 
-    trie_data
+    (trie_data, tbl_tips)
 }
 
 pub struct ZktrieCircuit {}
 
 impl TargetCircuit for ZktrieCircuit {
-    type Inner = EthTrieCircuit<Fr>;
+    type Inner = EthTrieCircuit<Fr, false>;
 
     fn name() -> String {
         "zktrie".to_string()
     }
     fn empty() -> Self::Inner {
         let dummy_trie: EthTrie<Fr> = Default::default();
-        let (circuit, _) = dummy_trie.circuits(mpt_rows());
+        let (circuit, _) = dummy_trie.to_circuits((mpt_rows(), None), &[]);
         circuit
     }
 
@@ -262,10 +265,11 @@ impl TargetCircuit for ZktrieCircuit {
     where
         Self: Sized,
     {
-        let trie_data = trie_data_from_blocks(block_traces);
+        let (trie_data, tips) = trie_data_from_blocks(block_traces);
+        let tips = tips.unwrap_or_default();
         //        let (rows, _) = trie_data.use_rows();
         //        log::info!("zktrie use rows {}", rows);
-        let (mpt_circuit, _) = trie_data.circuits(mpt_rows());
+        let (mpt_circuit, _) = trie_data.to_circuits((mpt_rows(), None), &tips);
         let instance = vec![];
         Ok((mpt_circuit, instance))
     }
@@ -278,7 +282,7 @@ impl TargetCircuit for ZktrieCircuit {
     }
 
     fn estimate_rows(block_traces: &[BlockTrace]) -> usize {
-        let (mpt_rows, _) = trie_data_from_blocks(block_traces).use_rows();
+        let (mpt_rows, _) = trie_data_from_blocks(block_traces).0.use_rows();
         mpt_rows
     }
 
@@ -308,7 +312,7 @@ impl TargetCircuit for PoseidonCircuit {
     where
         Self: Sized,
     {
-        let trie_data = trie_data_from_blocks(block_traces);
+        let (trie_data, _) = trie_data_from_blocks(block_traces);
         //        let (_, rows) = trie_data.use_rows();
         //        log::info!("poseidon use rows {}", rows);
         let (_, circuit) = trie_data.circuits(mpt_rows());
@@ -324,7 +328,7 @@ impl TargetCircuit for PoseidonCircuit {
     }
 
     fn estimate_rows(block_traces: &[BlockTrace]) -> usize {
-        let (_, rows) = trie_data_from_blocks(block_traces).use_rows();
+        let (_, rows) = trie_data_from_blocks(block_traces).0.use_rows();
         rows
     }
 }

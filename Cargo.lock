@@ -1402,7 +1402,7 @@ dependencies = [
 [[package]]
 name = "halo2-mpt-circuits"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-1230#73df1cbe1e25df9dedfea61e5f23613e8e3831b3"
+source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-1230#576619f32aa2cb50a702050e2036601ac8a459e2"
 dependencies = [
  "halo2_proofs",
  "hash-circuit",
@@ -1538,7 +1538,7 @@ dependencies = [
 [[package]]
 name = "hash-circuit"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/hash-circuit.git?branch=scroll-dev-1230#e28c5fa3b45a6aee020fa735a513d72b38aa67fd"
+source = "git+https://github.com/scroll-tech/poseidon-circuit.git?branch=scroll-dev-1230#06f7d99df76fa5466bf9698f2fd19f29d524ae8c"
 dependencies = [
  "bitvec 0.22.3",
  "halo2_proofs",
