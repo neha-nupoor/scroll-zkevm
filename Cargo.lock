@@ -1350,8 +1350,6 @@ dependencies = [
 [[package]]
 name = "gobuild"
 version = "0.1.0-alpha.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "71e156a4ddbf3deb5e8116946c111413bd9a5679bdc1536c78a60618a7a9ac9e"
 dependencies = [
  "cc",
 ]
@@ -1402,7 +1400,7 @@ dependencies = [
 [[package]]
 name = "halo2-mpt-circuits"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-1230#576619f32aa2cb50a702050e2036601ac8a459e2"
+source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-1230#ae5aa12f01f6bb6562950c97c7556461c0ea7a77"
 dependencies = [
  "halo2_proofs",
  "hash-circuit",
