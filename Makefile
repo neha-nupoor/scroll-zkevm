@@ -43,6 +43,9 @@ mock:
 mock_pack:
 	@cargo test --features prove_verify --release test_mock_prove_all_target_circuits_packing -- --exact --nocapture
 
+mock_prove:
+	@cargo run --bin mock_prove --release
+
 test-agg:
 	@cargo test --features prove_verify --release test_4in1
 
