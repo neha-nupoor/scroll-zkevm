@@ -9,10 +9,10 @@ const DEFAULT_END_BATCH: i64 = i64::MAX;
 
 #[tokio::main]
 async fn main() {
-    log::info!("mock_prove: begin");
-
     dotenv::dotenv().ok();
     env_logger::init();
+
+    log::info!("mock_prove: begin");
 
     let setting = Setting::new();
     log::info!("mock_prove: {setting:?}");

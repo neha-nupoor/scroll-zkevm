@@ -34,5 +34,5 @@ name = "verify"
 path = "src/verify.rs"
 
 [[bin]]
-name = "mock_prove"
-path = "src/mock_prove.rs"
+name = "mock_testnet"
+path = "src/mock_testnet.rs"
