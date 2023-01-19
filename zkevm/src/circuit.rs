@@ -9,9 +9,10 @@ use once_cell::sync::Lazy;
 
 use types::eth::BlockTrace;
 
-use zkevm_circuits::evm_circuit::EvmCircuit as EvmCircuitImpl;
+use zkevm_circuits::{evm_circuit::EvmCircuit as EvmCircuitImpl, util::SubCircuit};
 use zkevm_circuits::state_circuit::StateCircuit as StateCircuitImpl;
 use zkevm_circuits::super_circuit::SuperCircuit as SuperCircuitImpl;
+use zkevm_circuits::mpt_circuit::MptCircuit as MptCircuitImpl;
 
 mod builder;
 mod mpt;
@@ -232,38 +233,31 @@ fn trie_data_from_blocks<'d>(
 pub struct ZktrieCircuit {}
 
 impl TargetCircuit for ZktrieCircuit {
-    type Inner = EthTrieCircuit<Fr>;
+    type Inner = MptCircuitImpl<Fr>;
 
     fn name() -> String {
         "zktrie".to_string()
     }
     fn empty() -> Self::Inner {
-        let dummy_trie: EthTrie<Fr> = Default::default();
-        let (circuit, _) = dummy_trie.circuits(mpt_rows());
-        circuit
+        MptCircuitImpl::default()
     }
 
     fn from_block_traces(block_traces: &[BlockTrace]) -> anyhow::Result<(Self::Inner, Vec<Vec<Fr>>)>
     where
         Self: Sized,
     {
-        let trie_data = trie_data_from_blocks(block_traces);
-        let (rows, _) = trie_data.use_rows();
-        if rows >= mpt_rows() {
-            bail!("mpt row num overflow: {}", rows);
-        }
-        let (mpt_circuit, _) = trie_data.circuits(mpt_rows());
+        let mut witness_block = block_traces_to_witness_block(block_traces)?;
+        witness_block.circuits_params.max_rws = mpt_rows();
+        let circuit = MptCircuitImpl::new_from_block(&witness_block);
         let instance = vec![];
-        Ok((mpt_circuit, instance))
+        Ok((circuit, instance))
     }
 
     fn from_block_trace(block_trace: &BlockTrace) -> anyhow::Result<(Self::Inner, Vec<Vec<Fr>>)>
     where
         Self: Sized,
     {
-        let (mpt_circuit, _) = trie_data_from_blocks(Some(block_trace)).circuits(mpt_rows());
-        let instance = vec![];
-        Ok((mpt_circuit, instance))
+        Self::from_block_traces(std::slice::from_ref(block_trace))
     }
 
     fn estimate_rows(block_traces: &[BlockTrace]) -> usize {
