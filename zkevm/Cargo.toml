@@ -17,7 +17,7 @@ eth-types = { git = "https://github.com/scroll-tech/zkevm-circuits.git", branch 
 zkevm-circuits = { git = "https://github.com/scroll-tech/zkevm-circuits.git", branch = "feat/poseidon-circuit", default-features = false, features = ["test","zktrie"] }
 mpt-zktrie = { git = "https://github.com/scroll-tech/zkevm-circuits.git", branch = "feat/poseidon-circuit" }
 
-mpt-circuits = { package = "halo2-mpt-circuits", git = "https://github.com/scroll-tech/mpt-circuit.git", branch = "scroll-dev-0129" }
+#mpt-circuits = { package = "halo2-mpt-circuits", git = "https://github.com/scroll-tech/mpt-circuit.git", branch = "scroll-dev-0129" }
 
 rand = "0.8"
 rand_xorshift = "0.3"

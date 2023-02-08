@@ -7,10 +7,12 @@ use eth_types::ToAddress;
 use ethers_core::types::{Address, Bytes, U256};
 use types::eth::{BlockTrace, EthBlock, ExecStep};
 
-use mpt_circuits::hash::Hashable;
+use mpt_zktrie::hash::Hashable;
 use mpt_zktrie::state::ZktrieState;
+use zkevm_circuits::util::SubCircuit;
 use zkevm_circuits::evm_circuit::witness::block_apply_mpt_state;
 use zkevm_circuits::evm_circuit::witness::{block_convert, Block};
+
 
 use halo2_proofs::arithmetic::FieldExt;
 use halo2_proofs::halo2curves::bn256::Fr;
@@ -57,7 +59,7 @@ const SUB_CIRCUIT_NAMES: [&str; 10] = [
 // TODO: optimize it later
 pub fn calculate_row_usage_of_trace(block_trace: &BlockTrace) -> Result<Vec<usize>, anyhow::Error> {
     let witness_block = block_traces_to_witness_block(std::slice::from_ref(block_trace))?;
-    let rows =
+    let rows = 
         <crate::circuit::SuperCircuit as TargetCircuit>::Inner::min_num_rows_block_subcircuits(
             &witness_block,
         )
