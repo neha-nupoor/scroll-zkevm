@@ -10,6 +10,11 @@ halo2_proofs = { git = "https://github.com/scroll-tech/halo2.git", branch = "scr
 #halo2_proofs = { git = "https://github.com/scroll-tech/halo2.git", rev ="1a92fa80d277b93c55ddf191bedf7eb67307beda" }
 #substrate = { git = "https://github.com/paritytech/substrate.git", rev = "42f38dbd961342cd965154858e50f0253b0b7c0a"}
 
+[patch.'https://github.com/privacy-scaling-explorations/halo2wrong']
+halo2wrong = {git = 'https://github.com/noel2004/halo2wrong.git', branch = "v2023_02_02_patching"}
+#integer = {path = 'D:\code\zkevm\halo2\halo2wrong\integer'}
+#maingate = {path = 'D:\code\zkevm\halo2\halo2wrong\maingate'}
+
 #[replace]
 #"bitvec:0.20" = { git = "https://github.com/ed255/bitvec.git", rev = "5cfc5fa8496c66872d21905e677120fc3e79693c" }
 

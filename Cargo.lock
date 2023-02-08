@@ -411,7 +411,7 @@ checksum = "8f1e260c3a9040a7c19a12468758f4c16f31a81a1fe087482be9570ec864bb6c"
 [[package]]
 name = "bus-mapping"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "eth-types",
  "ethers-core",
@@ -986,32 +986,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c9b0705efd4599c15a38151f4721f7bc388306f61084d3bfd50bd07fbca5cb60"
 
 [[package]]
-name = "ecc"
-version = "0.1.0"
-dependencies = [
- "group",
- "integer",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand 0.8.5",
- "subtle",
-]
-
-[[package]]
-name = "ecdsa"
-version = "0.1.0"
-dependencies = [
- "ecc",
- "group",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand 0.8.5",
- "subtle",
-]
-
-[[package]]
 name = "ecdsa"
 version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1158,7 +1132,7 @@ dependencies = [
 [[package]]
 name = "eth-types"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "ethers-core",
  "ethers-signers",
@@ -1420,7 +1394,7 @@ dependencies = [
 [[package]]
 name = "external-tracer"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "eth-types",
  "geth-utils",
@@ -1733,7 +1707,7 @@ dependencies = [
 [[package]]
 name = "gadgets"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "digest 0.7.6",
  "eth-types",
@@ -1773,7 +1747,7 @@ dependencies = [
 [[package]]
 name = "geth-utils"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "env_logger",
  "gobuild",
@@ -1927,7 +1901,7 @@ dependencies = [
 [[package]]
 name = "halo2-mpt-circuits"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-0129#e5f59c1438fddcafcf13debc0c817eceee23b013"
+source = "git+https://github.com/scroll-tech/mpt-circuit.git?branch=scroll-dev-0129#631d71fd4dbe070fee34416efbfd12241d78c62f"
 dependencies = [
  "halo2_proofs",
  "hex",
@@ -1997,7 +1971,7 @@ dependencies = [
 [[package]]
 name = "halo2_base"
 version = "0.1.0"
-source = "git+ssh://git@github.com/scroll-tech/halo2-ecc.git?branch=halo2-ecc-ecdsa-0129#83826a6a5fbec9cd02b97c2f202da3e05da2a306"
+source = "git+https://github.com/scroll-tech/halo2-lib?branch=halo2-ecc-ecdsa-0129#89cf51f0ac452e4814e028b9a331ec613aafa726"
 dependencies = [
  "ff",
  "halo2_proofs",
@@ -2009,7 +1983,7 @@ dependencies = [
 [[package]]
 name = "halo2_ecc"
 version = "0.1.0"
-source = "git+ssh://git@github.com/scroll-tech/halo2-ecc.git?branch=halo2-ecc-ecdsa-0129#83826a6a5fbec9cd02b97c2f202da3e05da2a306"
+source = "git+https://github.com/scroll-tech/halo2-lib?branch=halo2-ecc-ecdsa-0129#89cf51f0ac452e4814e028b9a331ec613aafa726"
 dependencies = [
  "ark-std",
  "ff",
@@ -2101,6 +2075,7 @@ dependencies = [
 [[package]]
 name = "halo2wrong"
 version = "0.1.0"
+source = "git+https://github.com/noel2004/halo2wrong.git?branch=v2023_02_02_patching#d48c67f26bdb33f11b052524cf42068b3388b371"
 dependencies = [
  "group",
  "halo2_proofs",
@@ -2397,19 +2372,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "integer"
-version = "0.1.0"
-dependencies = [
- "group",
- "maingate",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand 0.8.5",
- "subtle",
-]
-
-[[package]]
 name = "integer-sqrt"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2486,7 +2448,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3636d281d46c3b64182eb3a0a42b7b483191a2ecc3f05301fa67403f7c9bc949"
 dependencies = [
  "cfg-if 1.0.0",
- "ecdsa 0.14.7",
+ "ecdsa",
  "elliptic-curve",
  "sha2 0.10.2",
  "sha3 0.10.1",
@@ -2501,7 +2463,7 @@ checksum = "f9b7d56ba4a8344d6be9729995e6b06f928af29998cdf79fe390cbf6b1fee838"
 [[package]]
 name = "keccak256"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "env_logger",
  "eth-types",
@@ -2625,6 +2587,7 @@ dependencies = [
 [[package]]
 name = "maingate"
 version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2023_02_02#5905a20b62fcd9f6c269416a39c80de7ced8fb02"
 dependencies = [
  "group",
  "halo2wrong",
@@ -2741,7 +2704,7 @@ dependencies = [
 [[package]]
 name = "mock"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "eth-types",
  "ethers-core",
@@ -2756,7 +2719,7 @@ dependencies = [
 [[package]]
 name = "mpt-zktrie"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "bus-mapping",
  "eth-types",
@@ -3288,7 +3251,7 @@ dependencies = [
 [[package]]
 name = "poseidon-circuit"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/poseidon-circuit.git?branch=scroll-dev-0201#ac41f782e28b13f9980b18f05a4ce4c4c6361dd8"
+source = "git+https://github.com/scroll-tech/poseidon-circuit.git?branch=scroll-dev-0201#ceda6061aa5e5d09ca5dfd5d90c581eb54077fc0"
 dependencies = [
  "bitvec 1.0.1",
  "halo2_proofs",
@@ -5775,12 +5738,10 @@ dependencies = [
 [[package]]
 name = "zkevm-circuits"
 version = "0.1.0"
-source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#0d4c8504087a34ca972bd845956bd980c4c948d3"
+source = "git+https://github.com/scroll-tech/zkevm-circuits.git?branch=feat/poseidon-circuit#1ba0208da2c4f74b94c9f00b8c655513d5b6c20b"
 dependencies = [
  "array-init",
  "bus-mapping",
- "ecc",
- "ecdsa 0.1.0",
  "env_logger",
  "eth-types",
  "ethers-core",
@@ -5790,7 +5751,6 @@ dependencies = [
  "halo2_ecc",
  "halo2_proofs",
  "hex",
- "integer",
  "itertools",
  "keccak256",
  "lazy_static",
