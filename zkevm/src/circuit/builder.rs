@@ -396,8 +396,8 @@ fn trace_code(cdb: &mut CodeDB, step: &ExecStep, sdb: &StateDB, code: Bytes, sta
 
     // sanity check
     let (existed, data) = sdb.get_account(&addr);
-    if existed {
-        assert_eq!(hash, data.code_hash);
+    if existed && !(data.nonce.is_zero() && data.balance.is_zero()) {
+        assert_eq!(hash, data.code_hash, "invalid codehash for existed account {addr:?}, {data:?}");
     };
 }
 pub fn build_statedb_and_codedb(blocks: &[BlockTrace]) -> Result<(StateDB, CodeDB), anyhow::Error> {
@@ -464,13 +464,10 @@ pub fn build_statedb_and_codedb(blocks: &[BlockTrace]) -> Result<(StateDB, CodeD
 
         for execution_result in &block.execution_results {
             if let Some(bytecode) = &execution_result.byte_code {
+                let hash = cdb.insert(decode_bytecode(bytecode)?.to_vec());
+                
                 if execution_result.account_created.is_none() {
-                    cdb.0.insert(
-                        execution_result
-                            .code_hash
-                            .ok_or_else(|| anyhow!("empty code hash in result"))?,
-                        decode_bytecode(bytecode)?.to_vec(),
-                    );
+                    assert_eq!(Some(hash), execution_result.code_hash);
                 }
             }
 
