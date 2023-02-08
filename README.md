@@ -12,6 +12,7 @@ Import as an dependency to use.
 ### Binaries
 
 Setup 
+    > Note: When initialising, the `params-file-path` & `seed-file-path` can be `zkevm/test_params` and `zkevm/test_seed`. Prover will generate the needed files the first time, and will load them subsequently.
 ```shell
 cargo build --release --bin setup   
 
@@ -22,7 +23,7 @@ Prove
 ```shell
 cargo build --release --bin prove
 
-./target/release/prove --params zkevm/test_params --seed zkevm/test_seed --trace zkevm/tests/erc20/multiple.json --evm evm_proof_multiple-erc20 --state state_proof_multiple-erc20
+./target/release/prove --params zkevm/test_params --seed zkevm/test_seed --trace zkevm/tests/traces/erc20/multiple.json --evm true --state true
 ```
 
 ## Test
